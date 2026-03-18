@@ -41,7 +41,7 @@ The goal is to evaluate trade-offs between:
 
 | Model | Method | Accuracy | Macro F1 | Notes |
 |------|--------|---------|---------|------|
-| FLAN-T5 | Prompting | 0.xx | 0.xx | Zero-shot |
+| FLAN-T5 | Prompting | 0.88 | 0.73 | Zero-shot |
 | F2LLM-0.6B | LoRA | 0.xx | 0.xx | Fine-tuned |
 
 ---
