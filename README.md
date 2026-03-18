@@ -56,7 +56,7 @@ The goal is to compare their performance, efficiency, and practicality on a real
 
 ### Baseline (Prompting)
 
-![Baseline](baseline/assets/baseline_confusion_matrix.png)
+![Baseline](Baseline/assets/baseline_confusion_matrix.png)
 
 ### Fine-Tuned Model (LoRA)
 
