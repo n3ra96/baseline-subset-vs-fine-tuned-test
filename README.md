@@ -81,7 +81,7 @@ The goal is to compare their performance, efficiency, and practicality on a real
 
 ### 1. Clone the repository
 
-git clone https://github.com/your-username/your-repo.git
+git clone https://github.com/n3ra96/baseline-subset-vs-fine-tuned-test.git
 cd your-repo
 
 ### 2. Install dependencies
