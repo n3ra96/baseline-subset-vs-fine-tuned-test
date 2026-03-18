@@ -189,6 +189,17 @@ for ex in test_small:
     y_true_b.append(ex[LABEL_COL])
     y_pred_b.append(classify_with_flan_t5(ex[TEXT_COL]))
 
+# Accuracy
+acc = accuracy_score(y_true_b, y_pred_b)
+
+# F1 scores
+f1_macro = f1_score(y_true_b, y_pred_b, average="macro", zero_division=0)
+f1_weighted = f1_score(y_true_b, y_pred_b, average="weighted", zero_division=0)
+
+print("Accuracy:", acc)
+print("F1 Macro:", f1_macro)
+print("F1 Weighted:", f1_weighted)
+
 print(classification_report(y_true_b, y_pred_b, labels=label_names, digits=3, zero_division=0))
 
 cm = confusion_matrix(y_true_b, y_pred_b, labels=label_names)
