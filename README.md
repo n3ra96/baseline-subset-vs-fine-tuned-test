@@ -47,8 +47,8 @@ The goal is to compare their performance, efficiency, and practicality on a real
 
 | Model | Method | Accuracy | Macro F1 |
 |------|--------|---------|---------|
-| FLAN-T5 | Prompting | XX | XX |
-| F2LLM-0.6B | LoRA Fine-Tuning | XX | XX |
+| FLAN-T5 | Prompting | 0.88 | 0.73 |
+| F2LLM-0.6B | LoRA Fine-Tuning | 0.98 | 0.98 |
 
 ---
 
