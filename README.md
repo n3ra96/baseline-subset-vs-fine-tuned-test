@@ -81,29 +81,29 @@ The goal is to compare their performance, efficiency, and practicality on a real
 
 ### 1. Clone the repository
 
-git clone https://github.com/n3ra96/baseline-subset-vs-fine-tuned-test.git
-cd your-repo
+  git clone https://github.com/n3ra96/baseline-subset-vs-fine-tuned-test.git
+  cd your-repo
 
 ### 2. Install dependencies
-pip install -r requirements.txt
+  pip install -r requirements.txt
 ### 3. Run notebooks
 
-baseline/baseline.ipynb
-finetuning/finetune_lora.ipynb
-comparison/compare.ipynb
+  baseline/baseline.ipynb
+  finetuning/finetune_lora.ipynb
+  comparison/compare.ipynb
 
 ## Environment
 
-Tested on Google Colab
-
-GPU: Tesla T4
-Mixed precision: bf16
+  Tested on Google Colab
+  
+  GPU: Tesla T4
+  Mixed precision: bf16
 
 ## Summary
 
-This project demonstrates the trade-off between:
-
-Prompting → fast, flexible, no training
-Fine-tuning → accurate, stable, data-driven
-
-Both approaches are valuable depending on the use case.
+  This project demonstrates the trade-off between:
+  
+  Prompting → fast, flexible, no training
+  Fine-tuning → accurate, stable, data-driven
+  
+  Both approaches are valuable depending on the use case.
