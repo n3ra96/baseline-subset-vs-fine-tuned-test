@@ -1,50 +1,109 @@
-# baseline-subset-vs-fine-tuned-test
-## 1) Local dataset loading (CSV upload → DataFrame)
+# Text Classification with LLMs: Prompting vs LoRA Fine-Tuning
 
-Change: Load the dataset from an uploaded CSV in Colab and keep it in a pandas df.
-Why: Makes the notebook dataset-agnostic and allows running on private/local datasets without Hugging Face Hub.
+## Overview
 
-## 2) Stratified train/val/test split (80/10/10)
+This project explores two approaches for text classification using Large Language Models (LLMs):
 
-Change: Use train_test_split(..., stratify=labels) twice to create train/val/test.
-Why: Preserves label distribution across splits; avoids misleading metrics from imbalanced subsets and enables proper “best checkpoint” selection using a validation set.
+1. **Prompt-Based Classification (Zero-Shot)**
+2. **Fine-Tuning with LoRA (Parameter-Efficient Training)**
 
-## 3) Prompt baseline (zero-shot label generation)
+The goal is to compare their performance, efficiency, and practicality on a real dataset.
 
-Change: Implement a prompt template that lists allowed labels and forces “return only label”.
-Why: Creates a true “no training” baseline to compare against fine-tuning. Also demonstrates prompt-engineering + robust parsing.
+---
 
-## 4) Stratified evaluation subset for baseline
+## Project Structure
+├── baseline/ # Prompt-based classification (FLAN-T5)
+├── finetuning/ # LoRA fine-tuning (F2LLM-0.6B)
+├── comparison/ # Evaluation and comparison between methods
+└── artifacts/ # Saved models, metrics, predictions
 
-Change: Evaluate the prompt baseline on a small stratified subset (e.g., 300 samples).
-Why: LLM-style inference is slower/costly. A stratified subset keeps metrics stable while making iteration fast.
 
-## 5) Switch fine-tuning to SequenceClassification (not generative labels)
+---
 
-Change: Fine-tune using AutoModelForSequenceClassification with integer label_id.
-Why: F2LLM-0.6B is better suited to embedding/feature-extraction/classification style training; classification head provides stable logits + clean metric computation.
+## Methods
 
-## 6) Padding token fix for batching
+### 1. Prompt-Based Classification (Baseline)
 
-Change: Define tokenizer.pad_token (fallback to eos_token) and set model.config.pad_token_id.
-Why: Many decoder-style tokenizers ship without pad tokens; batching requires padding. Without this, training fails for batch_size > 1.
+- Uses `google/flan-t5-base`
+- No training required
+- Classification is done via carefully designed prompts
+- Model generates a label as text
 
-## 7) LoRA adapters (PEFT)
+**Key idea:** Treat the model as a black-box reasoning system.
 
-Change: Use PEFT LoRA (r=16, alpha=32, dropout=0.05) targeting attention projection modules.
-Why: Trains ~0.7% of parameters (few million) instead of full model weights → faster, cheaper, smaller checkpoints, lower VRAM.
+---
 
-## 8) bf16 training on Tesla T4
+### 2. Fine-Tuning with LoRA
 
-Change: Use bf16=True and fp16=False.
-Why: Avoids FP16 GradScaler errors and is fast/stable on supported GPUs; improves throughput vs pure FP32.
+- Uses `codefuse-ai/F2LLM-0.6B`
+- Adds a classification head + LoRA adapters
+- Trains only a small subset of parameters (~0.7%)
 
-## 9) Memory safeguards
+**Key idea:** Adapt the model to the dataset for higher accuracy and consistency.
 
-Change: Use gradient_checkpointing_enable() and limit max_length (e.g., 192).
-Why: Attention memory scales ~O(L²). Checkpointing and smaller sequence length prevent CUDA OOM while keeping training feasible on a single GPU.
+---
 
-## 10) Reproducible artifacts
+## Results
 
-Change: Save metrics JSON, predictions CSV, and LoRA adapters.
-Why: Makes results reproducible and easy to compare across runs; adapters can be versioned and reloaded without saving full model weights. 
+| Model | Method | Accuracy | Macro F1 |
+|------|--------|---------|---------|
+| FLAN-T5 | Prompting | XX | XX |
+| F2LLM-0.6B | LoRA Fine-Tuning | XX | XX |
+
+---
+
+## Example Results
+
+### Baseline (Prompting)
+
+![Baseline](baseline/assets/baseline_confusion_matrix.png)
+
+### Fine-Tuned Model (LoRA)
+
+![Fine-Tuned](finetuning/assets/finetuned_confusion_matrix.png)
+
+---
+
+## Key Insights
+
+- Fine-tuning significantly improves performance, especially on class boundaries
+- Prompting is flexible but less consistent
+- LoRA enables efficient training without updating the full model
+
+**Trade-off:**
+
+- Prompting → flexible, no training  
+- Fine-tuning → higher accuracy, requires data and compute  
+
+---
+
+## How to Run
+
+### 1. Clone the repository
+
+git clone https://github.com/your-username/your-repo.git
+cd your-repo
+
+### 2. Install dependencies
+pip install -r requirements.txt
+### 3. Run notebooks
+
+baseline/baseline.ipynb
+finetuning/finetune_lora.ipynb
+comparison/compare.ipynb
+
+## Environment
+
+Tested on Google Colab
+
+GPU: Tesla T4
+Mixed precision: bf16
+
+## Summary
+
+This project demonstrates the trade-off between:
+
+Prompting → fast, flexible, no training
+Fine-tuning → accurate, stable, data-driven
+
+Both approaches are valuable depending on the use case.
