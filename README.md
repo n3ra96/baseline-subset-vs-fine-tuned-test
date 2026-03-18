@@ -60,7 +60,7 @@ The goal is to compare their performance, efficiency, and practicality on a real
 
 ### Fine-Tuned Model (LoRA)
 
-![Fine-Tuned](finetuning/assets/finetuned_confusion_matrix.png)
+![Fine-Tuned](finetuning/assets/finetuning_confusion_matrix.png)
 
 ---
 
