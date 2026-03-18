@@ -96,3 +96,8 @@ vs
 - **performance (fine-tuning)**
 
 Both approaches are important tools in modern LLM pipelines.
+
+## Methodology
+
+For detailed design decisions and implementation reasoning, see:
+[Methodology](docs/methodology.md)
