@@ -1,4 +1,4 @@
-# Text Classification with LLMs: Prompting vs LoRA Fine-Tuning
+# Text Classification: LLM Prompting vs Fine-Tuning an SLM with LoRA
 
 ## Overview
 
